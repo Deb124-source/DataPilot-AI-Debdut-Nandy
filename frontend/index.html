@@ -20,6 +20,7 @@
             <button class="nav-item" data-section="profile">Data Profile</button>
             <button class="nav-item" data-section="cleaning">Smart Cleaning</button>
             <button class="nav-item" data-section="eda">Automated EDA</button>
+            <button class="nav-item" data-section="ai">AI Data Assistant</button>
             <button class="nav-item" data-section="datasets">Dataset Manager</button>
         </nav>
 
@@ -109,6 +110,148 @@
             <div id="eda-insights-container" class="eda-insights-container"></div>
         </section>
 
+        <section id="ai" class="content-section">
+
+    <div class="section-header">
+        <div>
+            <h1>AI Data Analysis Assistant</h1>
+            <p>
+                Ask questions and get AI-powered insights about your
+                currently active dataset.
+            </p>
+        </div>
+    </div>
+
+
+    <div class="ai-layout">
+
+        <div class="ai-chat-card">
+
+            <div class="ai-chat-header">
+
+                <div class="ai-avatar">
+                    AI
+                </div>
+
+                <div>
+                    <h2>DataPilot AI</h2>
+
+                    <p id="ai-dataset-status">
+                        Select or upload a dataset to start analyzing.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div
+                id="ai-chat-messages"
+                class="ai-chat-messages"
+            >
+
+                <div class="ai-message assistant-message">
+
+                    <div class="message-avatar">
+                        AI
+                    </div>
+
+                    <div class="message-bubble">
+
+                        <p>
+                            Hello! I am your AI Data Analysis Assistant.
+                        </p>
+
+                        <p>
+                            Upload a dataset and ask me questions such as:
+                        </p>
+
+                        <ul>
+
+                            <li>
+                                What are the main insights from this dataset?
+                            </li>
+
+                            <li>
+                                Which columns contain missing values?
+                            </li>
+
+                            <li>
+                                What trends can you identify?
+                            </li>
+
+                            <li>
+                                Are there any strong correlations?
+                            </li>
+
+                        </ul>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="ai-suggestions">
+
+                <button
+                    class="ai-suggestion-btn"
+                    data-question="What are the main insights from this dataset?"
+                >
+                    Main Insights
+                </button>
+
+
+                <button
+                    class="ai-suggestion-btn"
+                    data-question="What data quality problems exist in this dataset?"
+                >
+                    Data Quality
+                </button>
+
+
+                <button
+                    class="ai-suggestion-btn"
+                    data-question="Are there any important correlations in this dataset?"
+                >
+                    Correlations
+                </button>
+
+
+                <button
+                    class="ai-suggestion-btn"
+                    data-question="What should I analyze next?"
+                >
+                    Next Analysis
+                </button>
+
+            </div>
+
+
+            <div class="ai-input-container">
+
+                <textarea
+                    id="ai-question-input"
+                    placeholder="Ask anything about your dataset..."
+                    rows="1"
+                ></textarea>
+
+
+                <button
+                    id="ai-send-btn"
+                    class="ai-send-btn"
+                >
+                    Send
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+        
         <section id="datasets" class="content-section">
             <div class="section-header">
                 <div>
