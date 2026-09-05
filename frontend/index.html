@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DataPilot AI</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <aside class="sidebar">
+        <div class="logo">
+            <h2>DataPilot AI</h2>
+            <p>Smart Data Processing</p>
+        </div>
+
+        <nav class="navigation">
+            <button class="nav-item active" data-section="upload">Upload Dataset</button>
+            <button class="nav-item" data-section="profile">Data Profile</button>
+            <button class="nav-item" data-section="cleaning">Smart Cleaning</button>
+            <button class="nav-item" data-section="eda">Automated EDA</button>
+            <button class="nav-item" data-section="datasets">Dataset Manager</button>
+        </nav>
+
+        <div class="sidebar-footer">
+            <p>AI Powered Data Analysis</p>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="topbar">
+            <div>
+                <h2 id="page-title">Upload Dataset</h2>
+                <p id="active-dataset-label">No active dataset</p>
+            </div>
+            <div class="dataset-status" id="dataset-status">No Dataset</div>
+        </header>
+
+        <section id="upload" class="content-section active">
+            <div class="section-header">
+                <div>
+                    <h1>Upload Your Dataset</h1>
+                    <p>Upload CSV, Excel, JSON, TSV or Parquet files.</p>
+                </div>
+            </div>
+
+            <div class="upload-card">
+                <div class="upload-area" id="upload-area">
+                    <h2>Drop Dataset Here</h2>
+                    <p>or select a file from your computer</p>
+                    <input type="file" id="file-input"
+                        accept=".csv,.xlsx,.xls,.json,.parquet,.tsv" hidden>
+                    <button class="primary-btn" id="choose-file-btn">Choose Dataset</button>
+                </div>
+
+                <div id="selected-file" class="selected-file hidden">
+                    <h3>Selected File</h3>
+                    <p id="selected-file-name"></p>
+                    <button class="upload-btn" id="upload-btn">Upload Dataset</button>
+                </div>
+            </div>
+
+            <div id="upload-result" class="result-container"></div>
+            <div id="dataset-preview-container" class="preview-container"></div>
+        </section>
+
+        <section id="profile" class="content-section">
+            <div class="section-header">
+                <div>
+                    <h1>Dataset Profile</h1>
+                    <p>Explore structure, statistics and data quality.</p>
+                </div>
+                <button class="upload-btn" id="generate-profile-btn">Generate Profile</button>
+            </div>
+            <div id="profile-content">
+                <div class="empty-state">Upload or select a dataset first.</div>
+            </div>
+        </section>
+
+        <section id="cleaning" class="content-section">
+            <div class="section-header">
+                <div>
+                    <h1>Smart Data Cleaning</h1>
+                    <p>Detect and fix common data quality problems.</p>
+                </div>
+                <div class="cleaning-actions">
+                    <button class="upload-btn" id="analyze-cleaning-btn">Analyze Dataset</button>
+                    <button class="primary-btn" id="apply-all-cleaning-btn">Apply All Recommendations</button>
+                </div>
+            </div>
+            <div id="cleaning-content">
+                <div class="empty-state">Upload or select a dataset first.</div>
+            </div>
+        </section>
+
+        <section id="eda" class="content-section">
+            <div class="section-header">
+                <div>
+                    <h1>Automated EDA</h1>
+                    <p>Explore your dataset using statistics, patterns and visualizations.</p>
+                </div>
+                <button class="upload-btn" id="generate-eda-btn">Run Automated EDA</button>
+            </div>
+            <div id="eda-content">
+                <div class="empty-state">Upload or select a dataset and run automated EDA.</div>
+            </div>
+            <div id="eda-charts-container" class="eda-charts-container"></div>
+            <div id="eda-insights-container" class="eda-insights-container"></div>
+        </section>
+
+        <section id="datasets" class="content-section">
+            <div class="section-header">
+                <div>
+                    <h1>Dataset Manager</h1>
+                    <p>Manage original and cleaned dataset versions.</p>
+                </div>
+                <button id="refresh-datasets-btn" class="upload-btn">Refresh Datasets</button>
+            </div>
+
+            <div id="active-dataset-info" class="active-dataset-card">
+                No active dataset selected.
+            </div>
+
+            <div id="datasets-container" class="datasets-grid">
+                <div class="empty-state">Upload a dataset to start managing versions.</div>
+            </div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
