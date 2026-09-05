@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-
+from app.routes.ai import router as ai_router
 from app.routes.upload import router as upload_router
 from app.routes.profile import router as profile_router
 from app.routes.cleaning import router as cleaning_router
@@ -26,7 +26,7 @@ app.include_router(profile_router)
 app.include_router(cleaning_router)
 app.include_router(eda_router)
 app.include_router(datasets_router)
-
+app.include_router(ai_router)
 
 @app.get("/")
 def root():
