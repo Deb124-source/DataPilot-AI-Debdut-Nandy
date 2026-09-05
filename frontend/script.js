@@ -1002,3 +1002,475 @@ document.addEventListener(
     "DOMContentLoaded",
     loadDatasets
 );
+
+/* =====================================================
+   DATA PILOT AI ASSISTANT
+===================================================== */
+
+const aiChatMessages = document.getElementById(
+    "ai-chat-messages"
+);
+
+const aiQuestionInput = document.getElementById(
+    "ai-question-input"
+);
+
+const aiSendButton = document.getElementById(
+    "ai-send-btn"
+);
+
+const aiDatasetStatus = document.getElementById(
+    "ai-dataset-status"
+);
+
+
+let aiConversationHistory = [];
+let aiIsSending = false;
+
+
+/* =====================================================
+   UPDATE AI DATASET STATUS
+===================================================== */
+
+function updateAIDatasetStatus(filename) {
+
+    if (!aiDatasetStatus) {
+        return;
+    }
+
+    if (!datasetId) {
+
+        aiDatasetStatus.textContent =
+            "Select or upload a dataset to start analyzing.";
+
+        return;
+    }
+
+    aiDatasetStatus.textContent =
+        `Analyzing active dataset: ${filename}`;
+
+}
+
+
+/* =====================================================
+   ADD CHAT MESSAGE
+===================================================== */
+
+function addAIMessage(text, role) {
+
+    const message = document.createElement("div");
+
+    message.className =
+        `ai-message ${role}-message`;
+
+
+    const avatar = document.createElement("div");
+
+    avatar.className = "message-avatar";
+
+    avatar.textContent =
+        role === "user"
+            ? "YOU"
+            : "AI";
+
+
+    const bubble = document.createElement("div");
+
+    bubble.className = "message-bubble";
+
+    bubble.textContent = text;
+
+
+    message.appendChild(avatar);
+
+    message.appendChild(bubble);
+
+
+    aiChatMessages.appendChild(message);
+
+
+    scrollAIChatToBottom();
+}
+
+
+/* =====================================================
+   SHOW TYPING INDICATOR
+===================================================== */
+
+function showAITypingIndicator() {
+
+    const message = document.createElement("div");
+
+    message.className =
+        "ai-message assistant-message";
+
+    message.id = "ai-typing-message";
+
+
+    const avatar = document.createElement("div");
+
+    avatar.className = "message-avatar";
+
+    avatar.textContent = "AI";
+
+
+    const bubble = document.createElement("div");
+
+    bubble.className = "message-bubble";
+
+
+    bubble.innerHTML = `
+        <div class="typing-indicator">
+
+            <span class="typing-dot"></span>
+
+            <span class="typing-dot"></span>
+
+            <span class="typing-dot"></span>
+
+        </div>
+    `;
+
+
+    message.appendChild(avatar);
+
+    message.appendChild(bubble);
+
+
+    aiChatMessages.appendChild(message);
+
+
+    scrollAIChatToBottom();
+}
+
+
+/* =====================================================
+   REMOVE TYPING INDICATOR
+===================================================== */
+
+function removeAITypingIndicator() {
+
+    const typingMessage = document.getElementById(
+        "ai-typing-message"
+    );
+
+    if (typingMessage) {
+        typingMessage.remove();
+    }
+
+}
+
+
+/* =====================================================
+   SCROLL CHAT
+===================================================== */
+
+function scrollAIChatToBottom() {
+
+    if (!aiChatMessages) {
+        return;
+    }
+
+    aiChatMessages.scrollTop =
+        aiChatMessages.scrollHeight;
+
+}
+
+
+/* =====================================================
+   SEND AI QUESTION
+===================================================== */
+
+async function sendAIQuestion(predefinedQuestion = null) {
+
+    if (aiIsSending) {
+        return;
+    }
+
+
+    if (!datasetId) {
+
+        addAIMessage(
+            "Please upload or select a dataset before asking me questions.",
+            "assistant"
+        );
+
+        return;
+    }
+
+
+    const question =
+        predefinedQuestion
+            ? predefinedQuestion.trim()
+            : aiQuestionInput.value.trim();
+
+
+    if (!question) {
+        return;
+    }
+
+
+    if (question.length > 5000) {
+
+        addAIMessage(
+            "Please keep your question under 5000 characters.",
+            "assistant"
+        );
+
+        return;
+    }
+
+
+    addAIMessage(
+        question,
+        "user"
+    );
+
+
+    aiConversationHistory.push({
+        role: "user",
+        content: question
+    });
+
+
+    if (!predefinedQuestion) {
+
+        aiQuestionInput.value = "";
+
+        autoResizeAIInput();
+
+    }
+
+
+    aiIsSending = true;
+
+    aiSendButton.disabled = true;
+
+    aiQuestionInput.disabled = true;
+
+
+    showAITypingIndicator();
+
+
+    try {
+
+        const response = await fetch(
+
+            `${API_URL}/ai/chat/${datasetId}`,
+
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+                    question: question
+                })
+
+            }
+
+        );
+
+
+        const responseText =
+            await response.text();
+
+
+        let data = {};
+
+
+        try {
+
+            if (responseText) {
+
+                data =
+                    JSON.parse(responseText);
+
+            }
+
+        } catch (parseError) {
+
+            console.error(
+                "AI API returned invalid JSON:",
+                responseText
+            );
+
+            throw new Error(
+                "The AI server returned an invalid response."
+            );
+
+        }
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.detail ||
+                "AI analysis failed."
+            );
+
+        }
+
+
+        const answer =
+            data.answer ||
+            "I could not generate an answer for this question.";
+
+
+        removeAITypingIndicator();
+
+
+        addAIMessage(
+            answer,
+            "assistant"
+        );
+
+
+        aiConversationHistory.push({
+            role: "assistant",
+            content: answer
+        });
+
+
+        if (aiConversationHistory.length > 20) {
+
+            aiConversationHistory =
+                aiConversationHistory.slice(-20);
+
+        }
+
+
+    } catch (error) {
+
+        removeAITypingIndicator();
+
+
+        console.error(
+            "AI Assistant Error:",
+            error
+        );
+
+
+        addAIMessage(
+
+            `AI Error: ${error.message}`,
+
+            "assistant"
+
+        );
+
+
+    } finally {
+
+        aiIsSending = false;
+
+        aiSendButton.disabled = false;
+
+        aiQuestionInput.disabled = false;
+
+        aiQuestionInput.focus();
+
+    }
+
+}
+
+
+/* =====================================================
+   SEND BUTTON
+===================================================== */
+
+aiSendButton.addEventListener(
+
+    "click",
+
+    () => {
+
+        sendAIQuestion();
+
+    }
+
+);
+
+
+/* =====================================================
+   ENTER TO SEND
+===================================================== */
+
+aiQuestionInput.addEventListener(
+
+    "keydown",
+
+    event => {
+
+        if (
+            event.key === "Enter" &&
+            !event.shiftKey
+        ) {
+
+            event.preventDefault();
+
+            sendAIQuestion();
+
+        }
+
+    }
+
+);
+
+
+/* =====================================================
+   AUTO RESIZE TEXTAREA
+===================================================== */
+
+aiQuestionInput.addEventListener(
+
+    "input",
+
+    autoResizeAIInput
+
+);
+
+
+function autoResizeAIInput() {
+
+    aiQuestionInput.style.height =
+        "auto";
+
+
+    aiQuestionInput.style.height =
+        Math.min(
+            aiQuestionInput.scrollHeight,
+            150
+        ) + "px";
+
+}
+
+
+/* =====================================================
+   QUICK QUESTION BUTTONS
+===================================================== */
+
+document
+    .querySelectorAll(".ai-suggestion-btn")
+    .forEach(button => {
+
+        button.addEventListener(
+
+            "click",
+
+            () => {
+
+                const question =
+                    button.dataset.question;
+
+                sendAIQuestion(
+                    question
+                );
+
+            }
+
+        );
+
+    });
