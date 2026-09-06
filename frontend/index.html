@@ -33,7 +33,7 @@
             <nav class="nav-links">
                 <a href="#features">Features</a>
                 <a href="#analyzer">Analyzer</a>
-                <a href="#workflow">How It Works</a>
+                <a href="#aiAssistant">AI Assistant</a>
                 <a href="#about">About</a>
             </nav>
 
@@ -564,70 +564,138 @@ Mar,18000,10500"
 
 
                 <!-- CHAT -->
-                <div class="ai-chat-section">
+               <!-- AI DATA ASSISTANT -->
+<div class="ai-chat-section" id="aiAssistant">
 
-                    <div class="chat-header">
+    <div class="chat-header">
 
-                        <div class="chat-icon">
-                            <i class="fa-solid fa-robot"></i>
-                        </div>
+        <div class="chat-header-left">
 
+            <div class="chat-icon">
+                <i class="fa-solid fa-robot"></i>
+            </div>
 
-                        <div>
+            <div>
 
-                            <h3>
-                                Ask DataPilot AI
-                            </h3>
+                <div class="chat-title-row">
 
-                            <p>
-                                Ask questions about your dataset
-                            </p>
+                    <h3>DataPilot AI Assistant</h3>
 
-                        </div>
-
-                    </div>
-
-
-                    <div
-                        class="chat-messages"
-                        id="chatMessages"
-                    >
-
-                        <div class="chat-message ai">
-
-                            <div class="message-avatar">
-                                <i class="fa-solid fa-robot"></i>
-                            </div>
-
-                            <div class="message-content">
-                                Your dataset is ready. Ask me anything about it!
-                            </div>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="chat-input-container">
-
-                        <input
-                            type="text"
-                            id="chatInput"
-                            placeholder="Ask something about your dataset..."
-                        >
-
-
-                        <button
-                            id="sendChatButton"
-                        >
-                            <i class="fa-solid fa-paper-plane"></i>
-                        </button>
-
-                    </div>
+                    <span class="ai-status">
+                        <span class="status-dot"></span>
+                        Online
+                    </span>
 
                 </div>
 
+                <p>
+                    Ask questions and discover insights from your uploaded dataset.
+                </p>
 
+            </div>
+
+        </div>
+
+
+        <div class="chat-header-badge">
+            <i class="fa-solid fa-sparkles"></i>
+            Gemini AI
+        </div>
+
+    </div>
+
+
+    <!-- CHAT MESSAGES -->
+
+    <div
+        class="chat-messages"
+        id="chatMessages"
+    >
+
+        <div class="chat-message ai">
+
+            <div class="message-avatar">
+                <i class="fa-solid fa-robot"></i>
+            </div>
+
+
+            <div class="message-content">
+
+                <strong>DataPilot AI</strong>
+
+                <p>
+                    Your dataset is ready! I can help you understand
+                    patterns, trends, missing values, correlations,
+                    and other important insights.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- AI SUGGESTIONS -->
+
+    <div class="chat-suggestions">
+
+        <button class="suggestion-btn">
+            <i class="fa-solid fa-chart-line"></i>
+            Summarize my data
+        </button>
+
+        <button class="suggestion-btn">
+            <i class="fa-solid fa-lightbulb"></i>
+            Find key insights
+        </button>
+
+        <button class="suggestion-btn">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            Find data problems
+        </button>
+
+        <button class="suggestion-btn">
+            <i class="fa-solid fa-chart-pie"></i>
+            Suggest visualizations
+        </button>
+
+    </div>
+
+
+    <!-- CHAT INPUT -->
+
+    <div class="chat-input-container">
+
+        <input
+            type="text"
+            id="chatInput"
+            placeholder="Ask anything about your dataset..."
+            autocomplete="off"
+        >
+
+
+        <button
+            id="sendChatButton"
+            title="Send message"
+        >
+
+            <i class="fa-solid fa-paper-plane"></i>
+
+        </button>
+
+    </div>
+
+
+    <div class="chat-footer-note">
+
+        <i class="fa-solid fa-wand-magic-sparkles"></i>
+
+        DataPilot AI analyzes your uploaded dataset context.
+
+    </div>
+
+</div>
             </div>
 
         </div>
