@@ -1474,3 +1474,97 @@ document
         );
 
     });
+
+
+/* =====================================================
+   DATAPILOT AI - THEME SYSTEM
+===================================================== */
+
+const themeToggle =
+    document.getElementById("theme-toggle");
+
+const themeIcon =
+    document.getElementById("theme-icon");
+
+
+function setTheme(theme) {
+
+    if (theme === "dark") {
+
+        document.body.classList.add(
+            "dark-theme"
+        );
+
+        themeIcon.textContent = "☀";
+
+    } else {
+
+        document.body.classList.remove(
+            "dark-theme"
+        );
+
+        themeIcon.textContent = "☾";
+
+    }
+
+    localStorage.setItem(
+        "datapilot-theme",
+        theme
+    );
+
+}
+
+
+/* Load saved theme */
+
+const savedTheme =
+    localStorage.getItem(
+        "datapilot-theme"
+    );
+
+
+if (savedTheme) {
+
+    setTheme(
+        savedTheme
+    );
+
+} else {
+
+    /* Optional system preference */
+
+    const prefersDark =
+        window.matchMedia(
+            "(prefers-color-scheme: dark)"
+        ).matches;
+
+
+    setTheme(
+        prefersDark
+            ? "dark"
+            : "light"
+    );
+
+}
+
+
+/* Toggle theme */
+
+themeToggle.addEventListener(
+    "click",
+    () => {
+
+        const isDark =
+            document.body.classList.contains(
+                "dark-theme"
+            );
+
+
+        setTheme(
+            isDark
+                ? "light"
+                : "dark"
+        );
+
+    }
+);
