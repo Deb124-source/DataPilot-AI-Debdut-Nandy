@@ -41,12 +41,12 @@ def chat_with_dataset(
         )
 
     except Exception as error:
-        print("AI Error:", error)
+        print("AI Error:", type(error).__name__, str(error))
 
         raise HTTPException(
             status_code=500,
-            detail=(
-                "AI analysis failed. "
-                "Please check your Gemini API configuration."
-            ),
+            detail={
+                "error_type": type(error).__name__,
+                "message": str(error),
+            },
         )
